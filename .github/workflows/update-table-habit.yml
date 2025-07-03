@@ -12,53 +12,12 @@ permissions:
 jobs:
   bump-cask:
     runs-on: macos-latest
-
     steps:
-      - id: date
-        run: echo "date=$(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Update Homebrew cask
+        uses: macauley/action-homebrew-bump-cask@v1
         with:
-          ref: auto-ci
-
-      - name: Configure git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-
-      - name: Configure Homebrew env
-        run: |
-          echo "HOMEBREW_NO_INSTALL_FROM_API=1" >> $GITHUB_ENV
-
-      - name: Detect latest version
-        id: detect
-        env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          brew tap friesi23/brew-repo
-          brew info --cask table-habit
-          brew livecheck --cask --debug --verbose table-habit
-          latest=$(brew livecheck --cask --quiet --newer-only table-habit | awk '{ print $NF }')
-          echo "got version: $latest"
-          echo "latest=$latest" >> $GITHUB_OUTPUT
-
-      - name: Skip if up to date
-        if: ${{ steps.detect.outputs.latest == '' }}
-        run: echo "No new version detected. Skipping bump."
-
-      - name: Tap and run bump-cask-pr
-        if: ${{ steps.detect.outputs.latest != '' }}
-        run: |
-          brew bump-cask-pr --write-only --version="${{ steps.detect.outputs.latest }}" friesi23/brew-repo/table-habit --verbose
-          brew cat table-habit > Casks/table-habit.rb
-
-      - name: Commit and push
-        if: ${{ steps.detect.outputs.latest != '' }}
-        uses: peter-evans/create-pull-request@v7
-        with:
-          commit-message: "Bump Table Habit Cask"
-          branch: bump/table-habit
-          title: "Auto bump table-habit Cask"
-          body: "Automatically bumped by GitHub Actions on ${{ steps.date.outputs.date }}."
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{secrets.GH_TOKEN}}
+          tap: FriesI23/brew-repo
+          cask: table-habit
+          force: false
+          livecheck: true
