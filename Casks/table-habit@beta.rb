@@ -1,6 +1,6 @@
 cask "table-habit@beta" do
-  version "1.16.16+85"
-  sha256 "0e573df86692f716c93258f9da2bf195923218a60a807103a2781bd19c7505e5"
+  version "1.16.18+87"
+  sha256 "587dfda13db15b4c21bdeb14054258a8e4a475867720da7d1bd1c231b30b005e"
 
   url "https://github.com/FriesI23/mhabit/releases/download/pre-v#{version}/mhabit.dmg"
   name "Table Habit"
@@ -9,7 +9,7 @@ cask "table-habit@beta" do
 
   livecheck do
     url :url
-    strategy :github_releases do |json, regex|
+    strategy :github_releases do |json, _regex|
       versions = json.map do |release|
         tag = release["tag_name"]
         tag.sub(/^pre-v/, "")
