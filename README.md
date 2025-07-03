@@ -1,10 +1,19 @@
-# Custom Homebrew cask repo for Table Habit
+# FriesI23's Homebrew cask repo
 
 ## Usage
 
 ```shell
 # add repo
-brew tap FriesI23/homebrew-mhabit
+brew tap FriesI23/brew-repo
+# remove repo
+brew untap FriesI23/brew-repo
+```
+
+## Table Habit
+
+```shell
 # install
-brew install FriesI23/homebrew-mhabit/table-habit
+brew install table-habit
+# or
+brew install table-habit@beta
 ```
