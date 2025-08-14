@@ -1,6 +1,6 @@
 cask "table-habit" do
-  version "1.16.22+91"
-  sha256 "b997ca5f9e830389b9e64e51b23f97d83a353ce4ff91d1f62de1ac5e77225bc9"
+  version "1.17.2+95"
+  sha256 "27a5a9db22e4acb6cc8c3469a1cc8332b847ba1fa9d5a14344417cef58da8e64"
 
   url "https://github.com/FriesI23/mhabit/releases/download/v#{version}/mhabit.dmg"
   name "Table Habit"
