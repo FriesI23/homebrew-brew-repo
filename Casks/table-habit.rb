@@ -16,7 +16,7 @@ cask "table-habit" do
 
   auto_updates false
   conflicts_with cask: "table-habit@beta"
-  depends_on macos: ">= :mojave"
+  depends_on macos: ">= :catalina"
 
   app "mhabit.app"
 
