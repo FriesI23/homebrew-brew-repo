@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Install rubocop-ast using portable Ruby
         run: |
+          brew vendor-install ruby
           PORTABLE_RUBY=$(brew --repository)/Library/Homebrew/vendor/portable-ruby
           GEMBIN=$(find "$PORTABLE_RUBY" -type f -name gem \
             | sort \
