@@ -13,11 +13,11 @@ jobs:
   bump-cask:
     runs-on: macos-latest
     steps:
-      - name: Install rubocop-ast
+      - name: Install rubocop-ast using brew ruby
         run: |
-          GEMBIN=$(ls $(brew --repository)/Library/Homebrew/vendor/portable-ruby/*/bin/gem | head -n 1)
-          echo "$GEMBIN"
-          "$GEMBIN" install rubocop-ast
+          GEMBIN=$(brew ruby -e 'puts Gem.bindir')
+          echo "Using GEMBIN=${GEMBIN}"
+          "${GEMBIN}/gem" install rubocop-ast
       - name: Update Homebrew cask
         uses: macauley/action-homebrew-bump-cask@v1
         with:
