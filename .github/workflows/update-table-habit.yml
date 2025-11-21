@@ -15,9 +15,13 @@ jobs:
     steps:
       - name: Install rubocop-ast using portable Ruby
         run: |
-          GEMBIN=$(brew ruby -e 'puts Gem.bindir' | tail -n 1)
-          echo "Using GEMBIN=${GEMBIN}"
-          "${GEMBIN}/gem" install rubocop-ast
+          PORTABLE_RUBY=$(brew --repository)/Library/Homebrew/vendor/portable-ruby
+          GEMBIN=$(find "$PORTABLE_RUBY" -type f -name gem \
+            | sort \
+            | tail -n 1) 
+          echo "RUBYS=$PORTABLE_RUBY"
+          echo "GEMBIN=$GEMBIN"
+          "$GEMBIN" install rubocop-ast
       - name: Update Homebrew cask
         uses: macauley/action-homebrew-bump-cask@v1
         with:
