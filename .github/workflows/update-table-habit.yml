@@ -14,10 +14,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Update Homebrew cask
-        uses: macauley/action-homebrew-bump-cask@v1
+        uses: Homebrew/actions/bump-packages@main
         with:
           token: ${{secrets.GH_TOKEN}}
-          tap: FriesI23/brew-repo
-          cask: table-habit, table-habit@beta
-          force: false
-          livecheck: true
+          casks: >
+            table-habit
+            table-habit@beta
+          fork: false
