@@ -25,9 +25,8 @@ cask "table-habit@beta" do
   app "mhabit.app"
 
   preflight do
-    system_command "xattr",
-                   args: ["-d", "com.apple.quarantine", "#{staged_path}/mhabit.app"]
-    if system_command("pgrep", args: ["-x", "mhabit"], print_stderr: false).exit_status == 0
+    system_command("xattr", args: ["-d", "com.apple.quarantine", "#{staged_path}/mhabit.app"], ignore_failure: true)
+    if system_command("pgrep", args: ["-x", "mhabit"], print_stderr: false, ignore_failure: true).exit_status == 0
       system_command "osascript",
                      args: ['-e', 'tell application "mhabit" to quit']
       File.write("/tmp/mhabit_beta_was_running", "1")
