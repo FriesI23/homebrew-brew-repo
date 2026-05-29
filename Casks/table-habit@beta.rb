@@ -1,6 +1,6 @@
 cask "table-habit@beta" do
-  version "1.24.0+153"
-  sha256 "f1f231f4d74427438d83dd1fc4d0c95392a615cbe0b5976b87da6a5409892ac0"
+  version "1.24.3+157"
+  sha256 "b44a32b503c86da03a659554a6b49de225f4bc86a004675bff03f0a5bfce848e"
 
   url "https://github.com/FriesI23/mhabit/releases/download/pre-v#{version}/mhabit.dmg"
   name "Table Habit"
@@ -20,7 +20,7 @@ cask "table-habit@beta" do
 
   auto_updates false
   conflicts_with cask: "table-habit"
-  depends_on macos: ">= :catalina"
+  depends_on macos: :catalina
 
   app "mhabit.app"
 
