@@ -33,6 +33,10 @@ main {
 h1 { font-size: 1.75rem; margin-bottom: 4px; }
 .subtitle { color: var(--muted); margin-top: 0; margin-bottom: 32px; }
 pre {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   background: var(--code-bg);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -40,7 +44,24 @@ pre {
   overflow-x: auto;
   font-size: 0.9rem;
 }
+pre code { flex: 1; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.copy-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  cursor: pointer;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn.copied { color: #2ea043; border-color: #2ea043; }
 .cask {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -50,9 +71,21 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .cask h2 {
   margin: 0 0 4px;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .cask h2 a { color: var(--fg); text-decoration: none; }
 .cask h2 a:hover { color: var(--accent); }
+.badge {
+  font-size: 0.7rem;
+  font-weight: normal;
+  padding: 1px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.badge.self { color: var(--accent); border-color: var(--accent); }
 .meta { color: var(--muted); font-size: 0.85rem; margin: 0 0 10px; }
 .meta code { background: none; }
 .desc { margin: 0 0 10px; }

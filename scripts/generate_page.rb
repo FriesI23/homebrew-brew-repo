@@ -16,10 +16,18 @@ TEMPLATE_DIR = File.join(__dir__, "templates")
 OUTPUT_DIR = ARGV[0] || File.join(REPO_ROOT, "_site")
 CUSTOM_DOMAIN = ENV["PAGES_CNAME"]
 
-TapInfo = Struct.new(:token, :name, :desc, :homepage, :version, :auto_updates, keyword_init: true)
+TapInfo = Struct.new(:token, :name, :desc, :homepage, :version, :auto_updates, :origin, keyword_init: true)
 
 def extract(field, content)
   content[/^\s*#{field}\s+"([^"]*)"/, 1]
+end
+
+# Each Cask file declares its origin via a leading comment, e.g.:
+#   # tap_origin: self
+# "self" casks package software this tap's owner develops; anything else
+# (or a missing tag) is treated as a third-party package.
+def parse_origin(content)
+  content[/^#\s*tap_origin:\s*(\S+)/, 1] == "self" ? :self : :third_party
 end
 
 def parse_cask(path)
@@ -32,7 +40,8 @@ def parse_cask(path)
     desc: extract("desc", content) || "",
     homepage: extract("homepage", content) || "",
     version: extract("version", content) || "",
-    auto_updates: content[/^\s*auto_updates\s+(true|false)/, 1] == "true"
+    auto_updates: content[/^\s*auto_updates\s+(true|false)/, 1] == "true",
+    origin: parse_origin(content)
   )
 end
 
@@ -49,5 +58,6 @@ html = ERB.new(template, trim_mode: "-").result(binding)
 FileUtils.mkdir_p(OUTPUT_DIR)
 File.write(File.join(OUTPUT_DIR, "index.html"), html)
 FileUtils.cp(File.join(TEMPLATE_DIR, "style.css"), File.join(OUTPUT_DIR, "style.css"))
+FileUtils.cp(File.join(TEMPLATE_DIR, "script.js"), File.join(OUTPUT_DIR, "script.js"))
 File.write(File.join(OUTPUT_DIR, "CNAME"), "#{CUSTOM_DOMAIN}\n") if CUSTOM_DOMAIN && !CUSTOM_DOMAIN.empty?
 puts "Wrote #{File.join(OUTPUT_DIR, 'index.html')} (#{casks.size} cask(s))"

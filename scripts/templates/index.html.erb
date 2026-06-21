@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= tap_qualified %> &middot; Homebrew Tap</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
   <main>
@@ -18,7 +19,14 @@ brew untap <%= tap_qualified %></code></pre>
 
     <% casks.each do |c| -%>
     <section class="cask">
-      <h2><a href="<%= CGI.escapeHTML(c.homepage) %>"><%= CGI.escapeHTML(c.name) %></a></h2>
+      <h2>
+        <a href="<%= CGI.escapeHTML(c.homepage) %>"><%= CGI.escapeHTML(c.name) %></a>
+        <% if c.origin == :self -%>
+        <span class="badge self">by <%= tap_owner %></span>
+        <% else -%>
+        <span class="badge">third-party</span>
+        <% end -%>
+      </h2>
       <p class="meta">
         <code><%= c.token %></code> &middot; v<%= c.version %><%= c.auto_updates ? "" : " &middot; manual updates" %>
       </p>

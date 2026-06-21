@@ -1,7 +1,5 @@
 # FriesI23's Homebrew cask repo
 
-Browse the tap online: [brew-repo.friesi23.icu](https://brew-repo.friesi23.icu/)
-
 ## Usage
 
 ```shell
@@ -11,11 +9,10 @@ brew tap FriesI23/brew-repo
 brew untap FriesI23/brew-repo
 ```
 
-## Table Habit
+## Install a cask
 
 ```shell
-# install
-brew install table-habit
-# or
-brew install table-habit@beta
+brew install <cask>
 ```
+
+See the full, up-to-date list of casks on the [tap homepage](https://brew-repo.friesi23.icu/).
