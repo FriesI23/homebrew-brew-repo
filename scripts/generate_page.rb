@@ -45,7 +45,7 @@ def parse_cask(path)
   )
 end
 
-casks = Dir.glob(File.join(CASKS_DIR, "*.rb")).sort.map { |f| parse_cask(f) }
+casks = Dir.glob(File.join(CASKS_DIR, "**", "*.rb")).sort.map { |f| parse_cask(f) }
 
 repo = ENV["GITHUB_REPOSITORY"] || "FriesI23/homebrew-brew-repo"
 tap_owner, repo_name = repo.split("/", 2)
