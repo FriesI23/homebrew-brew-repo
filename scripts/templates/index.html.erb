@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= tap_qualified %> &middot; Homebrew Tap</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1><%= tap_qualified %></h1>
+    <p class="subtitle">Homebrew Cask tap</p>
+
+    <pre><code># add tap
+brew tap <%= tap_qualified %>
+# remove tap
+brew untap <%= tap_qualified %></code></pre>
+
+    <% casks.each do |c| -%>
+    <section class="cask">
+      <h2><a href="<%= CGI.escapeHTML(c.homepage) %>"><%= CGI.escapeHTML(c.name) %></a></h2>
+      <p class="meta">
+        <code><%= c.token %></code> &middot; v<%= c.version %><%= c.auto_updates ? "" : " &middot; manual updates" %>
+      </p>
+      <p class="desc"><%= CGI.escapeHTML(c.desc) %></p>
+      <pre><code>brew install <%= c.token %></code></pre>
+    </section>
+    <% end -%>
+
+    <footer>
+      Generated from <a href="https://github.com/<%= repo %>">github.com/<%= repo %></a> &middot;
+      Last updated <%= Time.now.utc.strftime("%Y-%m-%d %H:%M UTC") %>
+    </footer>
+  </main>
+</body>
+</html>

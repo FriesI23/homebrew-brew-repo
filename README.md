@@ -1,5 +1,7 @@
 # FriesI23's Homebrew cask repo
 
+Browse the tap online: [brew-repo.friesi23.icu](https://brew-repo.friesi23.icu/)
+
 ## Usage
 
 ```shell
