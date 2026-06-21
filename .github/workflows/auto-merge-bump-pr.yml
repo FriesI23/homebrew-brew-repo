@@ -1,0 +1,67 @@
+name: Auto-merge Bump PRs
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge eligible bump PRs
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -uo pipefail
+          threshold=7200 # 2 hours
+          now=$(date -u +%s)
+
+          # PR 标题格式由 friesi23/action-homebrew-bump-cask 固定生成，
+          # 形如 "<cask>[@beta] <major>.<minor>.<patch>+<build>"
+          title_pattern='^[A-Za-z0-9@._-]+ [0-9]+\.[0-9]+\.[0-9]+\+[0-9]+$'
+
+          gh pr list --repo "$REPO" --state open \
+            --json number,headRefName,title,createdAt,isDraft,mergeable --limit 100 \
+            | jq -c '.[]' \
+            | while read -r pr; do
+                number=$(jq -r .number <<<"$pr")
+                headRef=$(jq -r .headRefName <<<"$pr")
+                title=$(jq -r .title <<<"$pr")
+                createdAt=$(jq -r .createdAt <<<"$pr")
+                isDraft=$(jq -r .isDraft <<<"$pr")
+                mergeable=$(jq -r .mergeable <<<"$pr")
+
+                if [[ "$headRef" != bump-* ]]; then
+                  echo "Skip #$number: not a bump PR ($headRef)"
+                  continue
+                fi
+                if ! [[ "$title" =~ $title_pattern ]]; then
+                  echo "Skip #$number: title does not match bump format ($title)"
+                  continue
+                fi
+                if [[ "$isDraft" == "true" ]]; then
+                  echo "Skip #$number: draft"
+                  continue
+                fi
+                if [[ "$mergeable" == "CONFLICTING" ]]; then
+                  echo "Skip #$number: has conflicts"
+                  continue
+                fi
+
+                createdEpoch=$(date -u -d "$createdAt" +%s)
+                age=$(( now - createdEpoch ))
+                if (( age < threshold )); then
+                  echo "Skip #$number: only ${age}s old (need ${threshold}s)"
+                  continue
+                fi
+
+                echo "Merging #$number (age ${age}s)"
+                gh pr merge "$number" --repo "$REPO" --squash --delete-branch \
+                  || echo "Failed to merge #$number"
+              done

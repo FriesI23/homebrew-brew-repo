@@ -2,7 +2,7 @@ name: Auto Bump table-habit Cask
 
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 8,20 * * *"
   workflow_dispatch:
 
 permissions:
