@@ -22,12 +22,10 @@ def extract(field, content)
   content[/^\s*#{field}\s+"([^"]*)"/, 1]
 end
 
-# Each Cask file declares its origin via a leading comment, e.g.:
-#   # tap_origin: self
-# "self" casks package software this tap's owner develops; anything else
-# (or a missing tag) is treated as a third-party package.
-def parse_origin(content)
-  content[/^#\s*tap_origin:\s*(\S+)/, 1] == "self" ? :self : :third_party
+# Casks directly under Casks/ are developed by this tap's owner; anything
+# under Casks/third-party/ is packaging for someone else's software.
+def parse_origin(path)
+  path.include?("#{File::SEPARATOR}third-party#{File::SEPARATOR}") ? :third_party : :self
 end
 
 def parse_cask(path)
@@ -41,7 +39,7 @@ def parse_cask(path)
     homepage: extract("homepage", content) || "",
     version: extract("version", content) || "",
     auto_updates: content[/^\s*auto_updates\s+(true|false)/, 1] == "true",
-    origin: parse_origin(content)
+    origin: parse_origin(path)
   )
 end
 

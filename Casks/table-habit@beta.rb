@@ -1,4 +1,3 @@
-# tap_origin: self
 cask "table-habit@beta" do
   version "1.25.0+163"
   sha256 "6fedb3c069c71bf58f85bc70f9082c6237095300123a4742f3c441897568bee7"
