@@ -18,6 +18,9 @@ jobs:
         with:
           token: ${{secrets.GH_TOKEN}}
           tap: FriesI23/brew-repo
-          cask: bettercmdtab
+          cask: |
+            joplin@beta
+            penpot-desktop
+            wireguard
           force: false
           livecheck: true
