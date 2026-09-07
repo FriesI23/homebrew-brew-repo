@@ -2,10 +2,9 @@ cask "wireguard" do
   version "1.0.16"
   sha256 "df84eab7d5b991164d508c1a4c8596d428a4cf6a20cc201716adc0cf0f6bed75"
 
-  url "https://github.com/mintc2/wireguard-macos-app/releases/download/v#{version}/wireguard_#{version.to_s.tr(".", "_")}.zip",
-      verified: "github.com/mintc2/wireguard-macos-app/"
+  url "https://github.com/mintc2/wireguard-macos-app/releases/download/v#{version}/wireguard_#{version.to_s.tr(".", "_")}.zip"
   name "WireGuard"
-  desc "WireGuard UI universal Apple application"
+  desc "Universal Apple application for the WireGuard UI"
   homepage "https://github.com/mintc2/wireguard-macos-app"
 
   livecheck do

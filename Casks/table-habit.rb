@@ -16,13 +16,12 @@ cask "table-habit" do
 
   auto_updates false
   conflicts_with cask: "table-habit@beta"
-  depends_on macos: :catalina
+  depends_on :macos
 
   app "mhabit.app"
 
-  preflight do
-    system_command "xattr",
-                   args: ["-d", "com.apple.quarantine", "#{staged_path}/mhabit.app"]
+  preflight_steps do
+    run "xattr", args: ["-d", "com.apple.quarantine", "{{staged_path}}/mhabit.app"]
   end
 
   zap trash: [
