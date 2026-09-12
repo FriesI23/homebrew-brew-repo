@@ -1,13 +1,13 @@
 cask "penpot-desktop" do
-  version "0.24.0"
+  version "0.25.0"
 
   on_arm do
-    sha256 "e8d4fb4af6ed33e2a0c280d8882b23af21b9c28d9c0cdba5206aa16e036b5496"
+    sha256 "ca39c51b5e2e4681486601561bdcef3f3b5e71d0b3ce7d284ff16ea930687aa5"
 
     url "https://github.com/author-more/penpot-desktop/releases/download/v#{version}/penpot-desktop-arm64.dmg"
   end
   on_intel do
-    sha256 "a5ecbebee355580eda6f176b26a8056487918f7fdfc4ec3ad26f1d4e205ee1d1"
+    sha256 "00a6065760cf62ea601ca07c396339f32fbe4ff15b06115773deed53ce6cf1c6"
 
     url "https://github.com/author-more/penpot-desktop/releases/download/v#{version}/penpot-desktop-x64.dmg"
   end
