@@ -19,6 +19,7 @@ jobs:
           token: ${{secrets.GH_TOKEN}}
           tap: FriesI23/brew-repo
           cask: |
+            iloader
             joplin@beta
             penpot-desktop
             wireguard
