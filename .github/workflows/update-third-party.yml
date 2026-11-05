@@ -9,19 +9,33 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   bump-cask:
     runs-on: macos-latest
     steps:
-      - name: Update Homebrew cask
-        uses: friesi23/action-homebrew-bump-cask@v2
-        with:
-          token: ${{secrets.GH_TOKEN}}
-          tap: FriesI23/brew-repo
-          cask: |
+      - uses: actions/checkout@v7
+
+      - name: Exclude casks with pending bump PRs
+        id: pending
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          CASKS: |
             iloader
             joplin@beta
             penpot-desktop
             wireguard
+        run: ruby scripts/filter_bump_casks.rb
+
+      - name: Update Homebrew cask
+        if: steps.pending.outputs.casks != ''
+        uses: friesi23/action-homebrew-bump-cask@v2
+        with:
+          token: ${{secrets.GH_TOKEN}}
+          tap: FriesI23/brew-repo
+          cask: ${{ steps.pending.outputs.casks }}
           force: false
           livecheck: true
